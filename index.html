@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIGNATURE LAB - DB영업 마스터 과정</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #03264F;
+    --blue: #05357D;
+    --copper: #CC886D;
+    --bg: #ffffff;
+    --bg2: #f7f8fa;
+    --bg3: #f0f2f5;
+    --text: #191f28;
+    --text2: #4e5968;
+    --text3: #8b95a1;
+    --text4: #b0b8c1;
+    --border: #e5e8eb;
+    --white: #fff;
+    --accent: #3182f6;
+  }
+  body {
+    font-family: 'Pretendard Variable', Pretendard, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ─── Header ─── */
+  .header {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px;
+    z-index: 100;
+    transition: all 0.3s;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+  }
+  .header.scrolled {
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 1px 12px rgba(0,0,0,0.04);
+  }
+  .logo { display: flex; align-items: center; text-decoration: none; }
+  .logo img { height: 24px; }
+  .nav-right { display: flex; align-items: center; gap: 24px; }
+  .nav-link {
+    color: var(--text2); font-size: 14px; font-weight: 500;
+    text-decoration: none; transition: color 0.2s;
+  }
+  .nav-link:hover { color: var(--text); }
+  .nav-cta {
+    padding: 8px 20px; background: var(--navy);
+    color: var(--white); border-radius: 8px; border: none;
+    font-size: 13px; font-weight: 600; text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav-cta:hover { background: var(--blue); }
+
+  /* ─── Hero ─── */
+  .hero {
+    padding: 104px 24px 80px;
+    background: var(--white); overflow: hidden;
+  }
+  .hero-inner {
+    max-width: 1080px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+    align-items: center; min-height: calc(100vh - 184px);
+  }
+  .hero-text {}
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 16px; margin-bottom: 24px;
+    background: #e8f3ff; border-radius: 100px;
+    font-size: 13px; font-weight: 600; color: var(--accent);
+  }
+  .hero-badge .dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+    animation: blink 2s infinite;
+  }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .hero h1 {
+    font-size: 44px; font-weight: 700; color: var(--text);
+    line-height: 1.35; letter-spacing: -0.03em; margin-bottom: 20px;
+  }
+  .hero h1 em { font-style: normal; color: var(--navy); }
+  .hero-desc {
+    font-size: 16px; color: var(--text3);
+    line-height: 1.8; margin-bottom: 36px;
+  }
+  .hero-desc strong { color: var(--text); }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 16px 36px; background: var(--navy); color: var(--white);
+    border: none; border-radius: 12px; font-size: 16px; font-weight: 700;
+    font-family: inherit; cursor: pointer; text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .hero-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(3,38,79,0.2);
+  }
+  .hero-cta svg { width: 16px; height: 16px; }
+  .hero-phone {
+    margin-top: 16px; font-size: 14px; color: var(--text3);
+  }
+  .hero-phone a { color: var(--text2); font-weight: 600; text-decoration: none; }
+  .hero-phone a:hover { color: var(--accent); }
+  .hero-visual img {
+    width: 100%; border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+  }
+
+  /* ─── Section ─── */
+  section { padding: 120px 24px; }
+  .container { max-width: 1080px; margin: 0 auto; }
+  .s-eyebrow {
+    font-size: 14px; font-weight: 700; color: var(--accent);
+    text-align: center; margin-bottom: 12px;
+  }
+  .s-title {
+    font-size: 36px; font-weight: 700; text-align: center;
+    letter-spacing: -0.03em; margin-bottom: 16px; line-height: 1.35;
+  }
+  .s-desc {
+    font-size: 16px; color: var(--text3); text-align: center;
+    margin-bottom: 64px; line-height: 1.7;
+  }
+
+  /* ─── Brand showcase ─── */
+  .brand-section { background: var(--bg2); }
+  .brand-images {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  }
+  .brand-images img {
+    width: 100%; border-radius: 20px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+
+  /* ─── Stats row ─── */
+  .stats-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    margin-top: 64px;
+  }
+  .stat-card {
+    background: var(--white); border-radius: 16px; padding: 28px 20px;
+    text-align: center; border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+  }
+  .stat-card .val {
+    font-size: 28px; font-weight: 800; color: var(--navy);
+    letter-spacing: -0.02em;
+  }
+  .stat-card .val span { color: var(--copper); }
+  .stat-card .label {
+    font-size: 14px; font-weight: 600; color: var(--text);
+    margin-top: 4px;
+  }
+  .stat-card .desc {
+    font-size: 12px; color: var(--text3); margin-top: 4px; line-height: 1.5;
+  }
+
+  /* ─── Course info ─── */
+  .course-box {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 20px; padding: 48px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+  }
+  .course-left h3, .course-right h3 {
+    font-size: 13px; font-weight: 600; color: var(--text3);
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;
+  }
+  .course-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 0; border-bottom: 1px solid var(--bg2); font-size: 15px;
+  }
+  .course-item:last-child { border-bottom: none; }
+  .course-item .label { color: var(--text3); }
+  .course-item .value { font-weight: 600; }
+  .schedule-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px; border: 1px solid var(--border); border-radius: 12px;
+    margin-bottom: 10px; transition: all 0.2s;
+  }
+  .schedule-row:hover { border-color: var(--accent); background: #f8faff; }
+  .schedule-date { font-size: 15px; font-weight: 600; }
+  .badge {
+    padding: 4px 10px; border-radius: 6px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
+  }
+  .badge-open { background: #e8f3ff; color: var(--accent); }
+  .badge-closed { background: var(--bg2); color: var(--text4); }
+  .course-price {
+    margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .course-price .label { font-size: 15px; color: var(--text3); }
+  .course-price .price { font-size: 28px; font-weight: 800; color: var(--text); }
+  .course-cta {
+    display: block; width: 100%; padding: 16px; margin-top: 20px;
+    background: var(--navy); color: var(--white); border: none; border-radius: 12px;
+    font-size: 16px; font-weight: 700; font-family: inherit;
+    cursor: pointer; text-align: center; text-decoration: none;
+    transition: all 0.2s;
+  }
+  .course-cta:hover { background: var(--blue); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(3,38,79,0.2); }
+
+  /* ─── Testimonials ─── */
+  .testi-section { background: var(--bg2); }
+  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .testi-card {
+    background: var(--white); border-radius: 20px; overflow: hidden;
+    border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .testi-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.06); }
+  .testi-img {
+    width: 100%; aspect-ratio: 3/4;
+    background: linear-gradient(135deg, var(--bg2), var(--bg3));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 48px; color: var(--text4);
+  }
+  .testi-body { padding: 24px; }
+  .testi-tag {
+    display: inline-block; padding: 4px 10px; border-radius: 6px;
+    font-size: 12px; font-weight: 700; margin-bottom: 12px;
+    background: #e8f3ff; color: var(--accent);
+  }
+  .testi-body p { font-size: 14px; color: var(--text2); line-height: 1.7; margin-bottom: 16px; }
+  .testi-body p strong { color: var(--text); }
+  .testi-author { font-size: 13px; color: var(--text4); }
+
+  /* ─── Pain / chat ─── */
+  .pain-section { background: var(--bg); }
+  .chat-list {
+    max-width: 560px; margin: 0 auto;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .chat-bubble {
+    padding: 16px 20px; border-radius: 20px;
+    font-size: 15px; line-height: 1.6; max-width: 85%;
+  }
+  .chat-bubble.left {
+    align-self: flex-start; background: var(--bg2);
+    border-bottom-left-radius: 4px; color: var(--text2);
+  }
+  .chat-bubble.right {
+    align-self: flex-end; background: var(--navy); color: rgba(255,255,255,0.85);
+    border-bottom-right-radius: 4px;
+  }
+  .chat-bubble strong { color: var(--accent); }
+  .chat-bubble.right strong { color: var(--copper); }
+
+  /* ─── Solution ─── */
+  .solution-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+    align-items: center; margin-bottom: 100px;
+  }
+  .solution-row:last-child { margin-bottom: 0; }
+  .solution-row.reverse .sol-text { order: -1; }
+  .sol-img {
+    width: 100%; border-radius: 24px;
+    background: linear-gradient(135deg, var(--bg2), var(--bg3));
+    aspect-ratio: 4/3;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; color: var(--text4);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+  }
+  .sol-text .num {
+    font-size: 12px; font-weight: 800; color: var(--accent);
+    margin-bottom: 8px; letter-spacing: 1px;
+  }
+  .sol-text h3 {
+    font-size: 26px; font-weight: 700; margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+  .sol-text p { font-size: 15px; color: var(--text2); line-height: 1.8; }
+  .sol-text p strong { color: var(--text); }
+
+  /* ─── Curriculum ─── */
+  .curri-section { background: var(--bg2); }
+  .curri-list { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+  .curri-card {
+    background: var(--white); border-radius: 16px; padding: 28px 32px;
+    border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .curri-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.04); }
+  .curri-top {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+  }
+  .curri-num {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: var(--accent); color: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 800; flex-shrink: 0;
+  }
+  .curri-top h4 { font-size: 16px; font-weight: 700; }
+  .curri-card ul {
+    list-style: none; padding-left: 40px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .curri-card ul li {
+    font-size: 14px; color: var(--text3); padding-left: 12px;
+    position: relative;
+  }
+  .curri-card ul li::before {
+    content: ''; position: absolute; left: 0; top: 9px;
+    width: 4px; height: 4px; border-radius: 50%; background: var(--text4);
+  }
+  .curri-takeaway {
+    margin: 14px 0 0 40px; padding: 12px 16px;
+    border-radius: 10px; background: #FFF8E1;
+    font-size: 13px; font-weight: 600; color: #b8860b;
+  }
+
+  /* ─── Benefits ─── */
+  .benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .benefit-card {
+    background: var(--bg2); border-radius: 20px; padding: 36px 28px;
+    text-align: center; transition: transform 0.2s;
+  }
+  .benefit-card:hover { transform: translateY(-4px); }
+  .benefit-icon {
+    width: 52px; height: 52px; margin: 0 auto 16px;
+    background: var(--white); border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .benefit-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+  .benefit-card p { font-size: 13px; color: var(--text3); line-height: 1.6; }
+
+  /* ─── Instructor ─── */
+  .instructor-section { background: var(--bg2); }
+  .instructor-box {
+    display: grid; grid-template-columns: 260px 1fr; gap: 48px; align-items: start;
+  }
+  .instructor-img {
+    width: 100%; aspect-ratio: 3/4; border-radius: 20px;
+    background: linear-gradient(135deg, var(--bg3), #dde0e4);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; color: var(--text4);
+  }
+  .instructor-info .role { font-size: 14px; color: var(--accent); font-weight: 600; margin-bottom: 4px; }
+  .instructor-info h3 { font-size: 24px; font-weight: 800; margin-bottom: 20px; }
+  .instructor-info p { font-size: 15px; color: var(--text2); line-height: 1.8; margin-bottom: 16px; }
+  .instructor-info p strong { color: var(--text); }
+
+  /* ─── FAQ ─── */
+  .faq-list { max-width: 680px; margin: 0 auto; }
+  .faq-item { border-bottom: 1px solid var(--border); }
+  .faq-q {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 0; cursor: pointer; font-size: 15px; font-weight: 600;
+  }
+  .faq-q .q-mark { color: var(--accent); font-weight: 800; margin-right: 8px; }
+  .faq-q .toggle {
+    width: 28px; height: 28px; border-radius: 8px; background: var(--bg2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; color: var(--text3); transition: all 0.3s; flex-shrink: 0;
+  }
+  .faq-item.open .faq-q .toggle { background: var(--accent); color: var(--white); transform: rotate(45deg); }
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s; }
+  .faq-a-inner { padding: 0 0 20px 24px; font-size: 14px; color: var(--text3); line-height: 1.7; }
+  .faq-item.open .faq-a { max-height: 200px; }
+
+  /* ─── Bottom CTA ─── */
+  .bottom-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-top: 1px solid rgba(0,0,0,0.06);
+    padding: 12px 32px;
+    display: flex; justify-content: center; align-items: center; gap: 20px;
+    z-index: 100;
+  }
+  .bottom-bar .text { font-size: 14px; font-weight: 500; color: var(--text2); }
+  .bottom-bar .text span { color: var(--accent); font-weight: 700; }
+  .bottom-bar .cta {
+    padding: 12px 32px; background: var(--navy); color: var(--white);
+    border: none; border-radius: 12px; font-size: 15px; font-weight: 700;
+    font-family: inherit; cursor: pointer; text-decoration: none;
+    transition: all 0.2s;
+  }
+  .bottom-bar .cta:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(3,38,79,0.25); }
+
+  /* ─── Footer ─── */
+  .footer {
+    background: var(--bg2); padding: 48px 32px 120px;
+    font-size: 13px; color: var(--text3); line-height: 1.8;
+  }
+  .footer strong { color: var(--text2); }
+
+  /* ─── Fade ─── */
+  .fade-up {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 768px) {
+    .header { padding: 0 16px; }
+    .hero { padding: 80px 20px 40px; }
+    .hero-inner { grid-template-columns: 1fr; min-height: auto; text-align: center; }
+    .hero h1 { font-size: 28px; }
+    .hero-desc { font-size: 15px; }
+    .hero-visual img { max-width: 400px; margin: 0 auto; display: block; }
+    section { padding: 80px 16px; }
+    .s-title { font-size: 24px; }
+    .brand-images { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .course-box { grid-template-columns: 1fr; padding: 28px; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .solution-row { grid-template-columns: 1fr; gap: 32px; }
+    .solution-row.reverse .sol-text { order: 0; }
+    .benefits-grid { grid-template-columns: 1fr; }
+    .instructor-box { grid-template-columns: 1fr; }
+    .bottom-bar { padding: 10px 16px; gap: 12px; }
+    .footer { padding: 32px 16px 100px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header" id="header">
+  <a class="logo" href="#">
+    <img src="img/logo-color.png" alt="SIGNATURE LAB">
+  </a>
+  <nav class="nav-right">
+    <a class="nav-link" href="#">DB영업 마스터</a>
+    <a class="nav-cta" href="contact.html">상담 신청</a>
+  </nav>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text fade-up">
+      <div class="hero-badge"><span class="dot"></span>SIGNATURE LAB SEMINAR</div>
+      <h1>어떤 DB를 사용하느냐보다<br>어떻게 DB를<br><em>활용하느냐가 중요합니다.</em></h1>
+      <p class="hero-desc">매달 DB를 사면서도 성과가 나지 않았던 이유,<br>이 강의로 <strong>완전히 바꿔드립니다.</strong></p>
+      <a class="hero-cta" href="contact.html">
+        무료 상담 신청하기
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 3.22a.75.75 0 011.06 0l4.25 4.25a.75.75 0 010 1.06l-4.25 4.25a.75.75 0 01-1.06-1.06L9.94 8 6.22 4.28a.75.75 0 010-1.06z"/></svg>
+      </a>
+      <div class="hero-phone">문의 <a href="tel:01075107912">010-7510-7912</a></div>
+    </div>
+    <div class="hero-visual fade-up">
+      <img src="img/door-sign2.png" alt="Be your Signature - 시그니처 사업부">
+    </div>
+  </div>
+</section>
+
+<!-- Brand Showcase -->
+<section class="brand-section">
+  <div class="container">
+    <div class="s-eyebrow fade-up">Be your Signature.</div>
+    <div class="s-title fade-up">대한민국 최고의 영업조직을 목표로</div>
+    <div class="s-desc fade-up">수 많은 조직에서 고유한 정체성으로 빛나는 프리미엄 조직, 시그니처</div>
+    <div class="brand-images fade-up">
+      <img src="img/door-sign1.png" alt="시그니처 사업부 오피스">
+      <img src="img/door-sign2.png" alt="시그니처 사업부 도어사인">
+    </div>
+    <div class="stats-row">
+      <div class="stat-card fade-up">
+        <div class="val">1배<span>+</span></div>
+        <div class="label">미팅 약속 성공률</div>
+        <div class="desc">10건 중 1건→3건 이상</div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="val">18%<span>+</span></div>
+        <div class="label">계약 체결률</div>
+        <div class="desc">2건 만나면 1건 계약</div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="val">2배<span>+</span></div>
+        <div class="label">DB 투자 대비 수익</div>
+        <div class="desc">100만→600만 수수료</div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="val">280만<span>+</span></div>
+        <div class="label">수강생 월 순수익</div>
+        <div class="desc">짧은 기간 내 달성</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Course Info -->
+<section>
+  <div class="container">
+    <div class="s-eyebrow fade-up">Program</div>
+    <div class="s-title fade-up">CPA마케팅 대행사의 이사가 알려주는<br>DB영업 마스터 과정</div>
+    <div class="s-desc fade-up">보험 경력 10년 이상, 현 보험업계 본부장</div>
+    <div class="course-box fade-up">
+      <div class="course-left">
+        <h3>강의 정보</h3>
+        <div class="course-item"><span class="label">장소</span><span class="value">추후 공지</span></div>
+        <div class="course-item"><span class="label">정원</span><span class="value">선착순 8명 (소수 정예)</span></div>
+        <div class="course-item"><span class="label">방식</span><span class="value">오프라인 세미나</span></div>
+      </div>
+      <div class="course-right">
+        <h3>일정 선택</h3>
+        <div class="schedule-row">
+          <span class="schedule-date">1기 · 일정 추후 공지</span>
+          <span class="badge badge-open">모집중</span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-date">2기 · 일정 추후 공지</span>
+          <span class="badge badge-closed">준비중</span>
+        </div>
+        <div class="course-price">
+          <span class="label">수강료</span>
+          <span class="price">추후 공지</span>
+        </div>
+        <a class="course-cta" href="contact.html">수강 신청하기</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testi-section">
+  <div class="container">
+    <div class="s-title fade-up">먼저 경험한 설계사님들의 이야기</div>
+    <div class="s-desc fade-up"></div>
+    <div class="testi-grid">
+      <div class="testi-card fade-up">
+        <div class="testi-img">&#128100;</div>
+        <div class="testi-body">
+          <span class="testi-tag">비용 문제 해결</span>
+          <p>매달 150만 원씩 DB를 사면서도 계약은 1건이 고작이었어요. 강의 듣고 나서 같은 비용으로 <strong>12건을 계약</strong>했습니다.</p>
+          <div class="testi-author">- 김OO 설계사 (GA 3년차)</div>
+        </div>
+      </div>
+      <div class="testi-card fade-up">
+        <div class="testi-img">&#128100;</div>
+        <div class="testi-body">
+          <span class="testi-tag">TA 공포 극복</span>
+          <p>2강에서 배운 오프닝 멘트 하나 바꿨더니 대화가 이어지기 시작했습니다. <strong>지금은 10건 중에서 3건~5건 미팅</strong> 잡아요.</p>
+          <div class="testi-author">- 이OO 설계사 (GA 2년차)</div>
+        </div>
+      </div>
+      <div class="testi-card fade-up">
+        <div class="testi-img">&#128100;</div>
+        <div class="testi-body">
+          <span class="testi-tag">클로징 실패 극복</span>
+          <p>5강 클로징 기술 적용하고 나서부터 현장에서 <strong>바로 사인받는 비율</strong>이 확 올라갔습니다.</p>
+          <div class="testi-author">- 박OO 설계사 (GA 5년차)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pain Points -->
+<section class="pain-section">
+  <div class="container">
+    <div class="s-title fade-up">이런 고민, 하고 계시지 않나요?</div>
+    <div class="s-desc fade-up"></div>
+    <div class="chat-list">
+      <div class="chat-bubble right fade-up">연결되어도 3초 만에 "바빠요" 한마디. 거절당할 게 뻔하니 <strong>전화하는 거에 부담감</strong>이 커져요.</div>
+      <div class="chat-bubble left fade-up">비싼 DB라고 비싸게 샀는데, <strong>신청한 적 없는데요?</strong>라는 말만 들어요.</div>
+      <div class="chat-bubble right fade-up">이번 달 어떻게든 계약하긴 했는데... <strong>다음 달 DB 값</strong>이 걱정됩니다.</div>
+      <div class="chat-bubble left fade-up">겨우 만나서 커피값까지 계산했는데 <strong>보험 이미 많아요</strong> 한 마디에 막혀버립니다..</div>
+    </div>
+  </div>
+</section>
+
+<!-- Solution -->
+<section>
+  <div class="container">
+    <div class="s-title fade-up" style="margin-bottom:64px;">아무리 나쁜 DB라도, 돈 주고 산 DB 고객의 데도 있습니다.</div>
+    <div class="solution-row fade-up">
+      <div class="sol-img">이미지 영역</div>
+      <div class="sol-text">
+        <div class="num">01</div>
+        <h3>관심이 없다.</h3>
+        <p>고객은 <strong>상품 자체보다 니즈(Need)</strong>에 반응합니다. 니즈를 자극하면 <strong>'검토해 볼게요'가 '사인할게요'</strong>로 바뀝니다.</p>
+      </div>
+    </div>
+    <div class="solution-row reverse fade-up">
+      <div class="sol-img">이미지 영역</div>
+      <div class="sol-text">
+        <div class="num">02</div>
+        <h3>확신이 없다.</h3>
+        <p><strong>감정이 먼저 결정하고, 결정한 이유에 논리를 붙여 찾습니다.</strong> 확신을 심으려면 논리보다 감정이 먼저입니다.</p>
+      </div>
+    </div>
+    <div class="solution-row fade-up">
+      <div class="sol-img">이미지 영역</div>
+      <div class="sol-text">
+        <div class="num">03</div>
+        <h3>이유가 없다.</h3>
+        <p>소개로 <strong>내 평판에 영향이 가기 때문</strong>에 부담을 느낍니다. <strong>좋아질 것 같은 사람</strong>이 되어야 소개가 나옵니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Curriculum -->
+<section class="curri-section">
+  <div class="container">
+    <div class="s-eyebrow fade-up">Curriculum</div>
+    <div class="s-title fade-up">단 한 번 듣고 끝나는 강의가 아닙니다</div>
+    <div class="s-desc fade-up">배우고, 쓰고, 써먹는 구조</div>
+    <div class="curri-list">
+      <div class="curri-card fade-up">
+        <div class="curri-top"><div class="curri-num">1</div><h4>DB는 죄가 없다 - 관점의 전환</h4></div>
+        <ul><li>DB별 고객 심리와 맞춤 접근법</li><li>내 영업 스타일에 맞는 최적의 DB를 찾는 법</li><li>DB를 '대화의 기회'로 보는 시각</li></ul>
+        <div class="curri-takeaway">어떤 종류의 DB가 와도 "이건 이렇게 접근하면 되겠다"는 감이 잡힙니다.</div>
+      </div>
+      <div class="curri-card fade-up">
+        <div class="curri-top"><div class="curri-num">2</div><h4>1차 콜의 마법 - 거절을 미팅으로 바꾸는 30초</h4></div>
+        <ul><li>고객이 전화를 끊지 못하게 만드는 첫 마디(Hooking)</li><li>"바빠요", "생각 없어요" 3대 거절 즉시 대응법</li><li>거절의 여지를 주지 않는 약속 잡기 기술</li></ul>
+        <div class="curri-takeaway">미팅 픽스율이 올라갑니다.</div>
+      </div>
+      <div class="curri-card fade-up">
+        <div class="curri-top"><div class="curri-num">3</div><h4>1차 미팅의 기술 - 계약의 90%를 결정하는 심리전</h4></div>
+        <ul><li>10분 만에 '내 편'으로 만드는 라포 형성법</li><li>일상 대화에서 보험 상담으로 자연스럽게 넘어가는 기술</li><li>고객이 스스로 문제를 깨닫게 만드는 비교 시각화</li></ul>
+        <div class="curri-takeaway">보험 얘기, 자연스럽게 꺼낼 수 있게 됩니다.</div>
+      </div>
+      <div class="curri-card fade-up">
+        <div class="curri-top"><div class="curri-num">4</div><h4>100점짜리 설계안 - 고객의 뇌에 느낌표를 찍어라</h4></div>
+        <ul><li>보장 범위와 보험료 사이의 최적 접점 찾기</li><li>숫자가 아닌 '상황'을 파는 스토리텔링 설계</li><li>타사 대비 압도적 차별성을 보여주는 비교 전략</li></ul>
+        <div class="curri-takeaway">고객이 먼저 "필요하겠다" 느끼게 됩니다.</div>
+      </div>
+      <div class="curri-card fade-up">
+        <div class="curri-top"><div class="curri-num">5</div><h4>2차 미팅 클로징 - 망설임을 확신으로 바꾸는 마침표</h4></div>
+        <ul><li>보험을 '만져지는 혜택'처럼 느끼게 하기</li><li>"상의해 볼게요"에 대처하는 결정적 한 마디</li><li>고객이 먼저 계약하겠다고 말하게 만드는 구조</li></ul>
+        <div class="curri-takeaway">현장에서 바로 계약 마무리할 수 있는 클로징 실력이 생깁니다.</div>
+      </div>
+      <div class="curri-card fade-up">
+        <div class="curri-top"><div class="curri-num">6</div><h4>영업 스노우볼 - DB 구매 비용 0원에 도전하기</h4></div>
+        <ul><li>계약 고객을 '장래적 소개자'로 만드는 관리법</li><li>고객이 먼저 소개해 주는 '고격 감동 노하우'</li><li>소개를 요청하기 가장 좋은 3번의 골든타임</li></ul>
+        <div class="curri-takeaway">DB고객을 키워서 만들게 됩니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Benefits -->
+<section>
+  <div class="container">
+    <div class="s-title fade-up">함께라면 해도 드리는 혜택</div>
+    <div class="s-desc fade-up"></div>
+    <div class="benefits-grid">
+      <div class="benefit-card fade-up">
+        <div class="benefit-icon">&#128218;</div>
+        <h4>영업 자료</h4>
+        <p>상담 시 고객의 신뢰를 살 수 있는<br>영업 자료로 클로징률을 올립니다</p>
+      </div>
+      <div class="benefit-card fade-up">
+        <div class="benefit-icon">&#128172;</div>
+        <h4>실시간 오픈채팅방</h4>
+        <p>막히는 순간, 실시간 코칭으로<br>답을 얻습니다</p>
+      </div>
+      <div class="benefit-card fade-up">
+        <div class="benefit-icon">&#128203;</div>
+        <h4>실전 스크립트</h4>
+        <p>현장에서 바로 쓸 수 있는<br>스크립트로 실력을 키웁니다</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Instructor -->
+<section class="instructor-section">
+  <div class="container">
+    <div class="s-eyebrow fade-up">Instructor</div>
+    <div class="s-title fade-up">CPA마케팅 대행사의 이사가 알려주는<br>DB영업 마스터 과정</div>
+    <div class="s-desc fade-up">보험 경력 10년 이상, 현 보험업계 본부장</div>
+    <div class="instructor-box fade-up">
+      <div class="instructor-img">강사 사진</div>
+      <div class="instructor-info">
+        <div class="role">대표강사</div>
+        <h3>강남규</h3>
+        <p>15년 동안 보험업계에 있으면서 직접 영업도 하고, 리더로서 수많은 팀원들을 이끌어오며 DB를 제대로 이해하기 위해 CPA 광고 대행사도 운영에도 참여했습니다.</p>
+        <p><strong>DB가 어떻게 만들어지고, 어떤 DB가 계약으로 이어지는지</strong> 수강간의 대화들을 직접 관리하고 분석했습니다.</p>
+        <p>같은 DB를 써도 누군가는 계약을 받고, 누군가는 못 받습니다. <strong>그 차이를 수많은 설계사분들에게 가르쳐주고, 현장에서 성과로 검증했습니다.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="container">
+    <div class="s-title fade-up" style="margin-bottom:48px;">자주 묻는 질문</div>
+    <div class="faq-list">
+      <div class="faq-item fade-up"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span><span class="q-mark">Q.</span> 강의는 어떤 방식으로 진행되나요?</span><span class="toggle">+</span></div><div class="faq-a"><div class="faq-a-inner">오프라인 소규모 세미나로 진행되며, 실전 사례 중심의 강의와 실습을 병행합니다.</div></div></div>
+      <div class="faq-item fade-up"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span><span class="q-mark">Q.</span> DB 영업을 처음 시작하는데 따라갈 수 있을까요?</span><span class="toggle">+</span></div><div class="faq-a"><div class="faq-a-inner">네, 입문자부터 경력자까지 모든 단계에 맞는 커리큘럼으로 구성되어 있습니다.</div></div></div>
+      <div class="faq-item fade-up"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span><span class="q-mark">Q.</span> 이미 DB 영업을 하고 있는데, 저한테도 도움이 될까요?</span><span class="toggle">+</span></div><div class="faq-a"><div class="faq-a-inner">기존 영업 방식을 한 단계 업그레이드할 수 있는 고급 기술과 스크립트를 제공합니다.</div></div></div>
+      <div class="faq-item fade-up"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span><span class="q-mark">Q.</span> 강의만 들으면 바로 성과가 나오나요?</span><span class="toggle">+</span></div><div class="faq-a"><div class="faq-a-inner">강의 후 실전 적용을 위한 스크립트와 오픈채팅방 코칭을 통해 빠른 성과 달성을 지원합니다.</div></div></div>
+      <div class="faq-item fade-up"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span><span class="q-mark">Q.</span> 강의를 들으려면 DB도 같이 구매해야 하나요?</span><span class="toggle">+</span></div><div class="faq-a"><div class="faq-a-inner">아닙니다. 기존에 사용하시는 DB에 바로 적용하실 수 있습니다.</div></div></div>
+      <div class="faq-item fade-up"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span><span class="q-mark">Q.</span> 강의 외에 추가로 지원받을 수 있는 게 있나요?</span><span class="toggle">+</span></div><div class="faq-a"><div class="faq-a-inner">영업 자료, 실전 스크립트, 실시간 오픈채팅방 참여권이 제공됩니다.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <strong>COMPANY INFO.</strong><br>
+  회사명. SIGNATURE LAB | 대표. 추후 공지<br>
+  사업자등록번호. 추후 공지 | 주소. 추후 공지
+</footer>
+
+<!-- Bottom Bar -->
+<div class="bottom-bar">
+  <div class="text">선착순 <span>8명</span> 마감 · 같은 DB, 다른 결과. 그 차이를 배웁니다</div>
+  <a class="cta" href="contact.html">상담 신청하기</a>
+</div>
+
+<script>
+window.addEventListener('scroll', () => {
+  document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
+});
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>

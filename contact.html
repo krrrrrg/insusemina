@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIGNATURE LAB - 상담 신청</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #03264F;
+    --blue: #05357D;
+    --copper: #CC886D;
+    --light: #F1F1F1;
+    --dark: #1a1a1a;
+    --white: #fff;
+    --red: #ef4444;
+  }
+  body {
+    font-family: 'Pretendard Variable', Pretendard, -apple-system, sans-serif;
+    color: var(--dark); background: var(--white);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Header */
+  .header {
+    height: 72px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; border-bottom: 2px solid var(--navy);
+  }
+  .logo { display: flex; align-items: center; text-decoration: none; }
+  .logo img { height: 28px; }
+  .nav-right { display: flex; gap: 28px; }
+  .nav-link { font-size: 14px; font-weight: 500; color: #888; text-decoration: none; transition: color 0.2s; }
+  .nav-link:hover { color: var(--dark); }
+  .nav-link.accent { color: var(--navy); font-weight: 700; }
+
+  /* Hero banner */
+  .contact-hero {
+    background: var(--light); padding: 64px 24px; text-align: center;
+  }
+  .contact-hero h1 { font-size: 36px; font-weight: 900; letter-spacing: 4px; margin-bottom: 12px; }
+  .contact-hero p { font-size: 15px; color: #888; }
+
+  /* Form layout */
+  .form-wrap {
+    max-width: 960px; margin: 0 auto; padding: 60px 24px 120px;
+    display: grid; grid-template-columns: 200px 1fr; gap: 48px;
+  }
+
+  /* Sidebar stepper */
+  .stepper { padding-top: 8px; }
+  .step {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding-bottom: 32px; position: relative;
+  }
+  .step:last-child { padding-bottom: 0; }
+  .step::before {
+    content: ''; position: absolute; left: 11px; top: 28px;
+    width: 2px; height: calc(100% - 28px); background: #e0e0e0;
+  }
+  .step:last-child::before { display: none; }
+  .step.active::before { background: var(--navy); }
+  .step-dot {
+    width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+    border: 2px solid #ddd; background: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s;
+  }
+  .step.active .step-dot { background: var(--navy); border-color: var(--navy); }
+  .step.active .step-dot::after {
+    content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--white);
+  }
+  .step-text .step-label { font-size: 11px; color: #bbb; font-weight: 600; letter-spacing: 1px; }
+  .step-text .step-name { font-size: 14px; font-weight: 600; color: #bbb; }
+  .step.active .step-text .step-label { color: var(--navy); }
+  .step.active .step-text .step-name { color: var(--navy); }
+
+  /* Form content */
+  .form-content {}
+  .form-section { margin-bottom: 48px; }
+  .form-section .step-header {
+    font-size: 12px; color: #bbb; font-weight: 600; letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .form-section h2 { font-size: 22px; font-weight: 800; margin-bottom: 28px; }
+
+  /* Form elements */
+  .field { margin-bottom: 24px; }
+  .field label {
+    display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px;
+  }
+  .field label .req { color: var(--red); }
+  .field input, .field select, .field textarea {
+    width: 100%; padding: 12px 0; border: none;
+    border-bottom: 1.5px solid #ddd; font-size: 15px;
+    font-family: inherit; color: var(--dark);
+    outline: none; background: transparent;
+    transition: border-color 0.2s;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-bottom-color: var(--navy);
+  }
+  .field input::placeholder, .field textarea::placeholder { color: #ccc; }
+  .field select { cursor: pointer; -webkit-appearance: none; appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 4px center;
+    padding-right: 24px;
+  }
+  .field select option { font-size: 14px; }
+  .field textarea {
+    border: 1.5px solid #ddd; border-radius: 8px; padding: 14px 16px;
+    min-height: 120px; resize: vertical;
+  }
+  .field textarea:focus { border-color: var(--navy); }
+
+  /* Phone input */
+  .phone-group {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .phone-group input { text-align: center; }
+  .phone-group .dash { color: #ccc; font-size: 18px; }
+
+  /* Checkbox grid */
+  .check-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  }
+  .check-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px; border: 1.5px solid #e5e5e5; border-radius: 8px;
+    cursor: pointer; transition: border-color 0.2s;
+  }
+  .check-item:hover { border-color: var(--navy); }
+  .check-item input { display: none; }
+  .check-item input:checked + .check-box {
+    background: var(--navy); border-color: var(--navy);
+  }
+  .check-item input:checked + .check-box::after {
+    content: ''; display: block; width: 6px; height: 10px;
+    border: solid var(--white); border-width: 0 2px 2px 0;
+    transform: rotate(45deg); margin: 1px 0 0 2px;
+  }
+  .check-box {
+    width: 20px; height: 20px; border: 2px solid #ddd; border-radius: 4px;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .check-label { font-size: 14px; }
+
+  /* Privacy */
+  .privacy {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 32px; cursor: pointer;
+  }
+  .privacy input { display: none; }
+  .privacy .check-box { width: 18px; height: 18px; }
+  .privacy input:checked + .check-box {
+    background: var(--navy); border-color: var(--navy);
+  }
+  .privacy input:checked + .check-box::after {
+    content: ''; display: block; width: 5px; height: 9px;
+    border: solid var(--white); border-width: 0 2px 2px 0;
+    transform: rotate(45deg); margin: 0px 0 0 2px;
+  }
+  .privacy span { font-size: 14px; color: #888; }
+
+  /* Submit */
+  .submit-wrap { display: flex; justify-content: flex-end; }
+  .submit-btn {
+    padding: 14px 48px; background: var(--navy); color: var(--white);
+    border: none; border-radius: 8px; font-size: 16px; font-weight: 700;
+    font-family: inherit; cursor: pointer; transition: background 0.2s;
+  }
+  .submit-btn:hover { background: var(--blue); }
+  .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+  /* Success */
+  .success-page {
+    display: none; text-align: center; padding: 80px 24px;
+  }
+  .success-page .icon {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: var(--navy); color: var(--copper);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px; margin: 0 auto 24px;
+  }
+  .success-page h2 { font-size: 24px; font-weight: 800; color: var(--navy); margin-bottom: 12px; }
+  .success-page p { font-size: 15px; color: #888; margin-bottom: 32px; }
+  .success-page a {
+    display: inline-block; padding: 12px 32px;
+    background: var(--navy); color: var(--white); text-decoration: none;
+    border-radius: 8px; font-weight: 600; font-size: 14px;
+  }
+
+  /* Footer */
+  .footer {
+    background: #f9f9f9; padding: 40px 48px;
+    font-size: 13px; color: #999;
+  }
+  .footer strong { color: #666; }
+  .footer-links { margin-top: 8px; }
+  .footer-links a { color: #888; text-decoration: none; margin-right: 24px; font-size: 13px; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .header { padding: 0 20px; }
+    .form-wrap { grid-template-columns: 1fr; padding: 32px 20px 80px; gap: 0; }
+    .stepper {
+      display: flex; gap: 20px; padding-bottom: 32px;
+      border-bottom: 1px solid #eee; margin-bottom: 32px;
+    }
+    .step { padding-bottom: 0; }
+    .step::before { display: none; }
+    .check-grid { grid-template-columns: 1fr; }
+    .phone-group input { font-size: 14px; }
+    .footer { padding: 32px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <a class="logo" href="index.html"><img src="img/logo-color.png" alt="SIGNATURE LAB"></a>
+  <nav class="nav-right">
+    <a class="nav-link" href="index.html">DB영업 마스터</a>
+    <a class="nav-link accent" href="#">상담 신청</a>
+  </nav>
+</header>
+
+<!-- Hero -->
+<div class="contact-hero">
+  <h1>CONTACT</h1>
+  <p>아래 양식을 작성해 주시면 담당자가 확인 후 연락드리겠습니다.</p>
+</div>
+
+<!-- Form -->
+<div class="form-wrap" id="formWrap">
+  <!-- Sidebar -->
+  <div class="stepper">
+    <div class="step active" data-step="1">
+      <div class="step-dot"></div>
+      <div class="step-text">
+        <div class="step-label">STEP 01</div>
+        <div class="step-name">기본 정보</div>
+      </div>
+    </div>
+    <div class="step" data-step="2">
+      <div class="step-dot"></div>
+      <div class="step-text">
+        <div class="step-label">STEP 02</div>
+        <div class="step-name">경력 정보</div>
+      </div>
+    </div>
+    <div class="step" data-step="3">
+      <div class="step-dot"></div>
+      <div class="step-text">
+        <div class="step-label">STEP 03</div>
+        <div class="step-name">추가 정보</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div class="form-content">
+    <form id="contactForm">
+      <!-- Step 1 -->
+      <div class="form-section">
+        <div class="step-header">STEP 01</div>
+        <h2>기본 정보를 입력해주세요.</h2>
+        <div class="field">
+          <label>성함 <span class="req">*</span></label>
+          <input type="text" id="name" placeholder="이름을 입력해주세요" required>
+        </div>
+        <div class="field">
+          <label>연락처 <span class="req">*</span></label>
+          <div class="phone-group">
+            <input type="tel" id="phone1" maxlength="3" placeholder="010">
+            <span class="dash">-</span>
+            <input type="tel" id="phone2" maxlength="4" placeholder="0000">
+            <span class="dash">-</span>
+            <input type="tel" id="phone3" maxlength="4" placeholder="0000">
+          </div>
+        </div>
+        <div class="field">
+          <label>강의 일정 <span class="req">*</span></label>
+          <select id="schedule" required>
+            <option value="" disabled selected>강의 일정을 선택해주세요</option>
+            <option value="1기">1기 (일정 추후 공지)</option>
+            <option value="2기">2기 (일정 추후 공지)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="form-section">
+        <div class="step-header">STEP 02</div>
+        <h2>경력을 알려주세요.</h2>
+        <div class="field">
+          <label>영업경력 <span class="req">*</span></label>
+          <select id="experience" required>
+            <option value="" disabled selected>영업경력을 선택해주세요</option>
+            <option value="1년 미만">1년 미만</option>
+            <option value="1~3년">1~3년</option>
+            <option value="3~5년">3~5년</option>
+            <option value="5~10년">5~10년</option>
+            <option value="10년 이상">10년 이상</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>직책 <span class="req">*</span></label>
+          <select id="position" required>
+            <option value="" disabled selected>직책을 선택해주세요</option>
+            <option value="설계사">설계사</option>
+            <option value="팀장">팀장</option>
+            <option value="지점장">지점장</option>
+            <option value="본부장">본부장</option>
+            <option value="기타">기타</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="form-section">
+        <div class="step-header">STEP 03</div>
+        <h2>추가 정보를 입력해주세요.</h2>
+        <div class="field">
+          <label>연락 가능한 시간대 <span class="req">*</span></label>
+          <div class="check-grid">
+            <label class="check-item">
+              <input type="checkbox" name="time" value="오전 (09:00~12:00)">
+              <span class="check-box"></span>
+              <span class="check-label">오전 (09:00~12:00)</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" name="time" value="오후 (12:00~18:00)">
+              <span class="check-box"></span>
+              <span class="check-label">오후 (12:00~18:00)</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" name="time" value="저녁 (18:00~21:00)">
+              <span class="check-box"></span>
+              <span class="check-label">저녁 (18:00~21:00)</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" name="time" value="언제든 괜찮아요">
+              <span class="check-box"></span>
+              <span class="check-label">언제든 괜찮아요</span>
+            </label>
+          </div>
+        </div>
+        <div class="field">
+          <label>추가로 궁금한 점</label>
+          <textarea id="message" placeholder="궁금한 점이 있으시면 자유롭게 작성해주세요"></textarea>
+        </div>
+      </div>
+
+      <label class="privacy">
+        <input type="checkbox" id="privacyCheck" required>
+        <span class="check-box"></span>
+        <span>개인정보 수집 및 이용에 동의합니다.</span>
+      </label>
+
+      <div class="submit-wrap">
+        <button type="submit" class="submit-btn" id="submitBtn">강의 신청하기</button>
+      </div>
+    </form>
+
+    <div class="success-page" id="successPage">
+      <div class="icon">&#10003;</div>
+      <h2>신청이 완료되었습니다</h2>
+      <p>담당자가 확인 후 빠른 시일 내 연락드리겠습니다.</p>
+      <a href="index.html">메인으로 돌아가기</a>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <strong>COMPANY INFO.</strong><br>
+  회사명. SIGNATURE LAB | 대표. 추후 공지<br>
+  사업자등록번호. 추후 공지 | 주소. 추후 공지
+  <div class="footer-links">
+    <a href="#">이용약관</a>
+    <a href="#">개인정보처리방침</a>
+  </div>
+</footer>
+
+<script>
+// Phone auto-focus
+document.getElementById('phone1').addEventListener('input', function(e) {
+  e.target.value = e.target.value.replace(/[^0-9]/g, '');
+  if (e.target.value.length >= 3) document.getElementById('phone2').focus();
+});
+document.getElementById('phone2').addEventListener('input', function(e) {
+  e.target.value = e.target.value.replace(/[^0-9]/g, '');
+  if (e.target.value.length >= 4) document.getElementById('phone3').focus();
+});
+document.getElementById('phone3').addEventListener('input', function(e) {
+  e.target.value = e.target.value.replace(/[^0-9]/g, '');
+});
+
+// Scroll-based stepper
+const sections = document.querySelectorAll('.form-section');
+const steps = document.querySelectorAll('.step');
+const formObs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const idx = [...sections].indexOf(entry.target);
+      steps.forEach((s, i) => s.classList.toggle('active', i <= idx));
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => formObs.observe(s));
+
+// Supabase
+const SUPABASE_URL = 'https://rjgzugnqqgqtvnrrumrw.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqZ3p1Z25xcWdxdHZucnJ1bXJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4NDA1ODIsImV4cCI6MjA4ODQxNjU4Mn0.jhR18pd_kYOxBH68bUkDyvzkF3eDUazlmmATcC_-ReM';
+
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '신청 중...';
+
+  const times = [...document.querySelectorAll('input[name="time"]:checked')].map(c => c.value);
+
+  const data = {
+    name: document.getElementById('name').value.trim(),
+    phone: `${document.getElementById('phone1').value}-${document.getElementById('phone2').value}-${document.getElementById('phone3').value}`,
+    email: '',
+    schedule: document.getElementById('schedule').value,
+    experience: document.getElementById('experience').value,
+    position: document.getElementById('position').value,
+    contact_time: times.join(', '),
+    message: document.getElementById('message').value.trim()
+  };
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/consultations`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) throw new Error('저장 실패');
+  } catch (err) {
+    console.error('Supabase:', err.message);
+  }
+
+  document.getElementById('contactForm').style.display = 'none';
+  document.getElementById('successPage').style.display = 'block';
+});
+</script>
+
+</body>
+</html>
