@@ -585,30 +585,48 @@
     .hero { padding: 100px 20px 60px; }
     .hero-inner {
       grid-template-columns: 1fr; min-height: auto;
-      text-align: center; gap: 40px;
+      text-align: left; gap: 40px;
     }
-    .hero h1 { font-size: 30px; }
+    .hero h1 { font-size: 28px; word-break: keep-all; }
     .hero-desc { font-size: 15px; }
-    .hero-actions { justify-content: center; }
-    .hero-visual img { max-width: 400px; margin: 0 auto; display: block; }
+    .hero-desc br { display: none; }
+    .hero-actions { justify-content: flex-start; }
+    .hero-visual img { max-width: 100%; display: block; }
     section { padding: 80px 20px; }
-    .s-title { font-size: 26px; }
-    .s-desc { font-size: 15px; margin-bottom: 48px; }
+    .s-eyebrow { text-align: left; }
+    .s-title { font-size: 24px; text-align: left; word-break: keep-all; }
+    .s-title br { display: none; }
+    .s-desc { font-size: 15px; text-align: left; margin-bottom: 40px; }
     .brand-images { grid-template-columns: 1fr; }
     .stats-row { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     .stat-card { padding: 24px 16px; }
     .stat-card .val { font-size: 26px; }
-    .course-box { grid-template-columns: 1fr; padding: 28px; gap: 36px; }
-    .testi-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
-    .solution-row { grid-template-columns: 1fr; gap: 32px; }
+    .course-box { grid-template-columns: 1fr; padding: 24px 20px; gap: 36px; }
+    .course-left h3, .course-right h3 { font-size: 12px; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .testi-body p { font-size: 14px; }
+    .chat-list { max-width: 100%; }
+    .chat-bubble { max-width: 90%; font-size: 14px; }
+    .solution-row { grid-template-columns: 1fr; gap: 28px; }
     .solution-row.reverse .sol-text { order: 0; }
-    .sol-text h3 { font-size: 24px; }
-    .benefits-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
-    .instructor-box { grid-template-columns: 1fr; gap: 32px; }
-    .instructor-img-wrap { max-width: 240px; }
+    .sol-text h3 { font-size: 22px; word-break: keep-all; }
+    .sol-text p { font-size: 15px; }
+    .sol-img { aspect-ratio: 16/10; font-size: 48px; }
+    .benefits-grid { grid-template-columns: 1fr; }
+    .benefit-card { text-align: left; padding: 28px 24px; display: flex; gap: 20px; align-items: flex-start; }
+    .benefit-icon { margin: 0; flex-shrink: 0; }
+    .benefit-card h4 { margin-bottom: 6px; }
+    .instructor-box { grid-template-columns: 1fr; gap: 28px; }
+    .instructor-img-wrap { max-width: 200px; }
+    .instructor-info h3 { font-size: 24px; }
+    .instructor-info p { font-size: 15px; }
     .curri-card { padding: 24px 20px; }
+    .curri-top h4 { font-size: 15px; word-break: keep-all; }
     .curri-card ul { padding-left: 36px; }
-    .curri-takeaway { margin-left: 36px; }
+    .curri-card ul li { font-size: 13px; }
+    .curri-takeaway { margin-left: 36px; font-size: 12px; }
+    .faq-q { font-size: 14px; }
+    .faq-a-inner { font-size: 14px; }
     .bottom-bar { padding: 12px 20px; gap: 12px; }
     .bottom-bar .text { font-size: 12px; }
     .bottom-bar .cta { padding: 12px 24px; font-size: 14px; }
@@ -617,7 +635,8 @@
   }
 
   @media (max-width: 480px) {
-    .hero h1 { font-size: 26px; }
+    .hero h1 { font-size: 24px; }
+    .s-title { font-size: 22px; }
     .stats-row { grid-template-columns: 1fr; }
     .bottom-bar { flex-direction: column; gap: 8px; }
     .bottom-bar .cta { width: 100%; text-align: center; }
