@@ -58,7 +58,7 @@
   }
   .logo { display: flex; align-items: center; text-decoration: none; }
   .logo img { height: 22px; transition: opacity 0.3s; }
-  .nav-right { display: flex; align-items: center; gap: 28px; }
+  .nav-right { display: flex; align-items: center; gap: 28px; white-space: nowrap; }
   .nav-link {
     color: var(--secondary-foreground); font-size: 14px; font-weight: 500;
     text-decoration: none; transition: color 0.2s;
@@ -581,7 +581,10 @@
 
   /* ─── Responsive ─── */
   @media (max-width: 768px) {
-    .header { padding: 0 20px; }
+    .header { padding: 0 16px; }
+    .nav-right { gap: 16px; }
+    .nav-link { font-size: 13px; }
+    .nav-cta { padding: 8px 16px; font-size: 12px; }
     .hero { padding: 100px 20px 60px; }
     .hero-inner {
       grid-template-columns: 1fr; min-height: auto;
@@ -652,7 +655,6 @@
   </a>
   <nav class="nav-right">
     <a class="nav-link" href="#">DB영업 마스터</a>
-    <a class="nav-link" href="#curriculum">커리큘럼</a>
     <a class="nav-cta" href="contact.html">강의 신청</a>
   </nav>
 </header>
