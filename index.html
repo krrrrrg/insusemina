@@ -38,6 +38,8 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
 
   /* ─── Header ─── */
@@ -590,15 +592,13 @@
       grid-template-columns: 1fr; min-height: auto;
       text-align: left; gap: 40px;
     }
-    .hero h1 { font-size: 28px; word-break: keep-all; }
+    .hero h1 { font-size: 28px; }
     .hero-desc { font-size: 15px; }
-    .hero-desc br { display: none; }
     .hero-actions { justify-content: flex-start; }
     .hero-visual img { max-width: 100%; display: block; }
     section { padding: 80px 20px; }
     .s-eyebrow { text-align: left; }
-    .s-title { font-size: 24px; text-align: left; word-break: keep-all; }
-    .s-title br { display: none; }
+    .s-title { font-size: 24px; text-align: left; }
     .s-desc { font-size: 15px; text-align: left; margin-bottom: 40px; }
     .brand-images { grid-template-columns: 1fr; }
     .stats-row { grid-template-columns: repeat(2, 1fr); gap: 12px; }
@@ -612,7 +612,7 @@
     .chat-bubble { max-width: 90%; font-size: 14px; }
     .solution-row { grid-template-columns: 1fr; gap: 28px; }
     .solution-row.reverse .sol-text { order: 0; }
-    .sol-text h3 { font-size: 22px; word-break: keep-all; }
+    .sol-text h3 { font-size: 22px; }
     .sol-text p { font-size: 15px; }
     .sol-img { aspect-ratio: 16/10; font-size: 48px; }
     .benefits-grid { grid-template-columns: 1fr; }
@@ -624,7 +624,7 @@
     .instructor-info h3 { font-size: 24px; }
     .instructor-info p { font-size: 15px; }
     .curri-card { padding: 24px 20px; }
-    .curri-top h4 { font-size: 15px; word-break: keep-all; }
+    .curri-top h4 { font-size: 15px; }
     .curri-card ul { padding-left: 36px; }
     .curri-card ul li { font-size: 13px; }
     .curri-takeaway { margin-left: 36px; font-size: 12px; }
@@ -665,10 +665,10 @@
     <div class="hero-text fade-up">
       <div class="hero-badge"><span class="dot"></span>SIGNATURE LAB SEMINAR</div>
       <h1>어떤 DB를 사용하느냐보다<br>어떻게 DB를<br><em>활용하느냐가 중요합니다.</em></h1>
-      <p class="hero-desc">매달 DB를 사면서도 성과가 나지 않았던 이유,<br>이 강의로 <strong>완전히 바꿔드립니다.</strong></p>
+      <p class="hero-desc">매달 DB를 사면서도 성과가 나지 않았던 이유,<br>이 강의로 <strong>완전히</strong> 바꿔드립니다.</p>
       <div class="hero-actions">
         <a class="hero-cta" href="contact.html">
-          무료 강의 신청하기
+          강의 신청하기
           <svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 3.22a.75.75 0 011.06 0l4.25 4.25a.75.75 0 010 1.06l-4.25 4.25a.75.75 0 01-1.06-1.06L9.94 8 6.22 4.28a.75.75 0 010-1.06z"/></svg>
         </a>
         <div class="hero-phone">문의 <a href="tel:01075107912">010-7510-7912</a></div>
@@ -685,7 +685,7 @@
   <div class="container">
     <div class="s-eyebrow fade-up">Be your Signature.</div>
     <div class="s-title fade-up">대한민국 최고의 영업조직을 목표로</div>
-    <div class="s-desc fade-up">수많은 조직에서 고유한 정체성으로 빛나는 프리미엄 조직, 시그니처</div>
+    <div class="s-desc fade-up">수많은 조직에서 고유한 정체성으로 빛나는<br>프리미엄 조직, 시그니처</div>
     <div class="brand-images fade-up">
       <div class="brand-img-wrap">
         <img src="img/door-sign1.png" alt="시그니처 사업부 오피스">
@@ -723,7 +723,7 @@
 <section>
   <div class="container">
     <div class="s-eyebrow fade-up">Program</div>
-    <div class="s-title fade-up">CPA마케팅 대행사의 이사가 알려주는<br>DB영업 마스터 과정</div>
+    <div class="s-title fade-up">CPA마케팅 대행사의 이사가<br>알려주는 DB영업 마스터 과정</div>
     <div class="s-desc fade-up">보험 경력 10년 이상, 현 보험업계 본부장</div>
     <div class="course-box fade-up">
       <div class="course-left">
@@ -765,7 +765,7 @@
           <span class="testi-tag">비용 문제 해결</span>
         </div>
         <div class="testi-body">
-          <p>매달 150만 원씩 DB를 사면서도 계약은 1건이 고작이었어요. 강의 듣고 나서 같은 비용으로 <strong>12건을 계약</strong>했습니다.</p>
+          <p>매달 150만 원씩 DB를 사면서도 계약은 1건이 고작이었어요. 강의 듣고 나서 같은 비용으로 <strong>12건을 계약했습니다.</strong></p>
           <div class="testi-author">김OO 설계사 · GA 3년차</div>
         </div>
       </div>
@@ -802,8 +802,8 @@
     <div class="chat-list">
       <div class="chat-bubble right fade-up">연결되어도 3초 만에 "바빠요" 한마디. 거절당할 게 뻔하니 <strong>전화하는 거에 부담감</strong>이 커져요.</div>
       <div class="chat-bubble left fade-up delay-1">비싼 DB라고 비싸게 샀는데, <strong>신청한 적 없는데요?</strong>라는 말만 들어요.</div>
-      <div class="chat-bubble right fade-up delay-2">이번 달 어떻게든 계약하긴 했는데... <strong>다음 달 DB 값</strong>이 걱정됩니다.</div>
-      <div class="chat-bubble left fade-up delay-3">겨우 만나서 커피값까지 계산했는데 <strong>보험 이미 많아요</strong> 한 마디에 막혀버립니다..</div>
+      <div class="chat-bubble right fade-up delay-2">이번 달 어떻게든 계약하긴 했는데... <strong>다음 달 DB 값이 걱정</strong>됩니다.</div>
+      <div class="chat-bubble left fade-up delay-3">겨우 만나서 커피값까지 계산했는데 <strong>"보험 이미 많아요"</strong> 한마디에 막혀버립니다.</div>
     </div>
   </div>
 </section>
@@ -812,7 +812,7 @@
 <section class="solution-section">
   <div class="container">
     <div class="s-eyebrow fade-up">Solution</div>
-    <div class="s-title fade-up" style="margin-bottom:72px;">아무리 나쁜 DB라도,<br>돈 주고 산 DB 고객의 태도엔 이유가 있습니다.</div>
+    <div class="s-title fade-up" style="margin-bottom:72px;">아무리 나쁜 DB라도,<br>고객의 태도엔 이유가 있습니다.</div>
     <div class="solution-row fade-up">
       <div class="sol-img">&#128566;</div>
       <div class="sol-text">
@@ -911,7 +911,7 @@
 <section class="instructor-section">
   <div class="container">
     <div class="s-eyebrow fade-up">Instructor</div>
-    <div class="s-title fade-up">현장에서 검증된 강사가<br>직접 알려드립니다</div>
+    <div class="s-title fade-up">현장에서 검증된 강사가 직접 알려드립니다</div>
     <div class="s-desc fade-up">보험 경력 15년, CPA 광고 대행사 운영 경험</div>
     <div class="instructor-box fade-up">
       <div class="instructor-img-wrap">
